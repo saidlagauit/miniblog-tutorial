@@ -1,0 +1,56 @@
+:root {
+  --main-color: #346751;
+  --secondary-color: #161616;
+  --third-color: #C84B31;
+}
+
+body {
+  background: var(--bs-light);
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Start Login */
+.login {
+  margin: 2rem auto;
+  width: 30%;
+  padding: 1rem;
+}
+
+/* Start Page Posts */
+
+
+img.img-widgets,
+img.img-preview,
+img.img-edit {
+  width: -webkit-fill-available;
+}
+
+td.d-flex {
+  justify-content: space-evenly;
+}
+
+span.btn.btn-outline-primary {
+  border-radius: 0;
+}
+
+
+
+/* Start page Dashboard */
+
+
+
+@media (max-width: 576px) {
+  .login {
+    width: 100%;
+  }
+}

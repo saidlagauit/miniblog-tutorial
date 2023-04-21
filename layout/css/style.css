@@ -1,0 +1,42 @@
+:root {
+  --main-color: #346751;
+  --secondary-color: #161616;
+  --third-color: #C84B31;
+}
+
+body {
+  background: var(--bs-light);
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* img.img-me.rounded-circle {
+  width: 10%;
+} */
+
+.me.text-capitalize {
+  display: flex;
+  place-content: center;
+  margin: 3rem auto;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+img.img-about,
+img.img-reading {
+  width: -webkit-fill-available;
+}
+
+.media a.nav-link {
+  color: var(--secondary-color);
+}
+
+@media (max-width: 576px) {}
