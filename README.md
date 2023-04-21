@@ -1,4 +1,4 @@
-# Website Analysis
+# Mini blog Tutorial
 
 This is an analysis of a small blog website that consists of article pages, an about page, and a contact page. Users can read articles and leave comments. On the backend, administrators can log in to control everything, including adding, editing, and deleting articles, reading and managing messages, and approving or deleting comments. When registering as a content writer, users are redirected to a page for writing articles.
 
