@@ -88,7 +88,7 @@ if ($do == 'view') {
               ?>
             </ul>
           </div>
-          <form class="shadow p-2" action="index.php?do=comments-true" method="post" autocomplete="off">
+          <form class="shadow p-2" action="index.php?do=comments-true" method="post" autocomplete="off" id="comments">
             <?php if (isset($_SESSION['message'])): ?>
               <div id="message">
                 <?php echo $_SESSION['message']; ?>
@@ -146,7 +146,7 @@ if ($do == 'view') {
     $stmt = $con->prepare("INSERT INTO `comments`(`articlesid`, `comment`, `name`, `email`, `website`) VALUES (?,?,?,?,?)");
     $stmt->execute(array($articlesid, $comment, $name, $email, $website));
     show_message('Thank you for comment', 'success');
-    header('Location: ?do=reading&id=' . $articlesid . '');
+    header('Location: ?do=reading&id=' . $articlesid . '#comments');
     exit();
   } else {
     header('Location: index.php');
