@@ -14,7 +14,7 @@
   </div>
 </nav>
 <div class="container">
-  <div class="me border-bottom">
+  <div class="me mb-2 border-bottom">
     <div class="me-info text-md-center">
       <?php
       $IsMe = $con->prepare("SELECT * FROM `me` LIMIT 1");

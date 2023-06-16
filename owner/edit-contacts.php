@@ -59,7 +59,7 @@ if ($_SESSION['username']) {
 
       <?php
     } else {
-      echo '<p class="mt-1 alert alert-success">There are no message currently</p>';
+      echo '<p class="mt-1 alert alert-info">There are no message currently</p>';
     }
   } elseif ($do == 'eye-message') {
     $id = isset($_GET['id']) ? $_GET['id'] : '';

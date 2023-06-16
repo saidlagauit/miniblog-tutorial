@@ -71,7 +71,7 @@ if ($_SESSION['username']) {
       </div>
       <?php
     } else {
-      echo '<p class="mt-1 alert alert-success">There are no comments currently</p>';
+      echo '<p class="mt-1 alert alert-info">There are no comments currently</p>';
     }
   } elseif ($do == 'approved') {
     $id = isset($_GET['id']) ? $_GET['id'] : '';

@@ -11,10 +11,10 @@ if ($_SESSION['username']) {
       header('Location: edit.php?do=new-posts');
       exit;
     }
-    ?>
+?>
     <h1>Posts&nbsp;<a class="btn btn-outline-primary" href="?do=new-posts">Add New</a></h1>
     <?php if (!empty($IsArticles)) { ?>
-      <?php if (isset($_SESSION['message'])): ?>
+      <?php if (isset($_SESSION['message'])) : ?>
         <div id="message">
           <?php echo $_SESSION['message']; ?>
         </div>
@@ -33,9 +33,13 @@ if ($_SESSION['username']) {
             </tr>
             <?php
             foreach ($IsArticles as $article) {
-              ?>
+            ?>
               <tr>
-                <td>
+                <td class="<?php if ($article['status_a'] == '0') :
+                              echo 'text-success';
+                            else :
+                              echo 'text-danger';
+                            endif; ?>">
                   <?php echo $article['title']; ?>
                 </td>
                 <td>
@@ -56,36 +60,36 @@ if ($_SESSION['username']) {
                   </a>
                   <?php
                   if ($article['status_a'] == 0) {
-                    ?>
-                    <a class="btn btn-info" href="../index.php?do=reading&id=<?php echo $article['id']; ?>" target="_blank">
+                  ?>
+                    <a class="btn btn-info" href="../index.php?do=reading&slug=<?php echo $article['slug']; ?>" target="_blank">
                       <i class="fas fa-eye"></i>
                     </a>
-                    <a class="btn btn-danger" href="?do=trash&id=<?php echo $article['id']; ?>">
+                    <a class="btn btn-danger" href="?do=action&id=<?php echo $article['id']; ?>&action=trash">
+                      <i class=" fas fa-times-circle"></i>
+                    </a>
+                  <?php
+                  } else {
+                  ?>
+                    <a class="btn btn-danger" href="?do=delete&id=<?php echo $article['id']; ?>">
                       <i class="fas fa-trash"></i>
                     </a>
-                    <?php
-                  } else {
-                    ?>
-                    <a class="btn btn-danger" href="?do=delete&id=<?php echo $article['id']; ?>">
-                      <i class="fas fa-times-circle"></i>
+                    <a class="btn btn-primary" href="?do=action&id=<?php echo $article['id']; ?>&action=publish">
+                      <i class=" fas fa-check-square"></i>
                     </a>
-                    <a class="btn btn-primary" href="?do=published&id=<?php echo $article['id']; ?>">
-                      <i class="fas fa-check-square"></i>
-                    </a>
-                    <?php
+                  <?php
                   }
                   ?>
                 </td>
               </tr>
-              <?php
+            <?php
             }
             ?>
           </tbody>
         </table>
       </div>
-      <?php
+    <?php
     } else {
-      echo '<p>Add new article</p>';
+      echo '<p class="alert alert-info">Add new article</p>';
     }
   } elseif ($do == 'edit') {
     $id = isset($_GET['id']) ? $_GET['id'] : '';
@@ -94,7 +98,7 @@ if ($_SESSION['username']) {
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count > 0) {
-      ?>
+    ?>
       <h1>Edit Article :
         <?php echo $row['title']; ?>
       </h1>
@@ -104,7 +108,7 @@ if ($_SESSION['username']) {
         </div>
         <div class="col-md-8 mx-auto">
           <form class="form-edit text-capitalize" action="?do=update" method="post" autocomplete="off">
-            <?php if (isset($_SESSION['message'])): ?>
+            <?php if (isset($_SESSION['message'])) : ?>
               <div id="message">
                 <?php echo $_SESSION['message']; ?>
               </div>
@@ -117,8 +121,7 @@ if ($_SESSION['username']) {
             </div>
             <div class="form-group mb-3">
               <label>content</label>
-              <textarea class="form-control" name="content" rows="14"
-                required="required"><?php echo $row['content']; ?></textarea>
+              <textarea class="form-control" name="content" rows="14" required="required"><?php echo $row['content']; ?></textarea>
             </div>
             <div class="form-group mb-3">
               <label>author</label>
@@ -138,7 +141,7 @@ if ($_SESSION['username']) {
           </form>
         </div>
       </div>
-      <?php
+    <?php
     } else {
       header('Location: edit.php');
       exit();
@@ -148,14 +151,13 @@ if ($_SESSION['username']) {
     <h1>Add New Post</h1>
     <div class="row g-3">
       <div class="col-md-6 mx-auto">
-        <?php if (isset($_SESSION['message'])): ?>
+        <?php if (isset($_SESSION['message'])) : ?>
           <div id="message">
             <?php echo $_SESSION['message']; ?>
           </div>
           <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
-        <form class="form-edit text-capitalize" action="?do=post-true" method="post" autocomplete="off"
-          enctype="multipart/form-data">
+        <form class="form-edit text-capitalize" action="?do=post-true" method="post" autocomplete="off" enctype="multipart/form-data">
           <div class="form-group mb-3">
             <label>title<span class="text-danger">*</span></label>
             <input name="title" class="form-control" required="required" />
@@ -190,13 +192,14 @@ if ($_SESSION['username']) {
         </form>
       </div>
     </div>
-    <?php
+<?php
   } elseif ($do == 'post-true') {
     $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
     $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
     $author = filter_var($_POST['author'], FILTER_SANITIZE_STRING);
     $categories = filter_var($_POST['categories'], FILTER_SANITIZE_STRING);
     $tags = filter_var($_POST['tags'], FILTER_SANITIZE_STRING);
+    $slug = strtolower(str_replace(' ', '-', $title));
     $errors = [];
     if (empty($title)) {
       $errors[] = 'Title field is required.';
@@ -219,7 +222,6 @@ if ($_SESSION['username']) {
           $errors[] = 'Invalid file type. Only JPG, JPEG, PNG and GIF files are allowed';
         } else {
           $file_name = uniqid('cover_', true) . '.' . $extension;
-
           if (move_uploaded_file($_FILES['cover']['tmp_name'], '../uploads/' . $file_name)) {
             $cover = $file_name;
           } else {
@@ -228,8 +230,17 @@ if ($_SESSION['username']) {
         }
       }
       if (empty($errors)) {
-        $stmt = $con->prepare('INSERT INTO articles (title, cover, content, author, categories, tags) VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$title, $cover, $content, $author, $categories, $tags]);
+        $checkSlug = $con->prepare("SELECT * FROM articles WHERE slug = ?");
+        $checkSlug->execute([$slug]);
+        $counter = 1;
+        $originalSlug = $slug;
+        while ($checkSlug->fetch()) {
+          $slug = $originalSlug . '+' . $counter;
+          $counter++;
+          $checkSlug->execute([$slug]);
+        }
+        $stmt = $con->prepare('INSERT INTO articles (title, slug, cover, content, author, categories, tags) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$title, $slug, $cover, $content, $author, $categories, $tags]);
         show_message('Article added successfully!', 'success');
         header('Location: edit.php?do=new-posts');
       }
@@ -241,6 +252,7 @@ if ($_SESSION['username']) {
     $author = $_POST['author'];
     $categories = $_POST['categories'];
     $tags = $_POST['tags'];
+    $slug = strtolower(str_replace(' ', '-', $title));
     $FormError = array();
     if (empty($title)) {
       $FormError[] = '<div class="alert alert-danger">Title Cant Be <strong>Empty</strong></div>';
@@ -255,8 +267,8 @@ if ($_SESSION['username']) {
       echo $error;
     }
     if (empty($FormError)) {
-      $stmt = $con->prepare("UPDATE `articles` SET `title`= ?,`content`= ?,`author`= ?,`categories`= ?,`tags`= ? WHERE `id`= ?");
-      $stmt->execute(array($title, $content, $author, $categories, $tags, $id));
+      $stmt = $con->prepare("UPDATE `articles` SET `title`= ?,`slug`= ?,`content`= ?,`author`= ?,`categories`= ?,`tags`= ? WHERE `id`= ?");
+      $stmt->execute(array($title, $slug, $content, $author, $categories, $tags, $id));
       if ($stmt->rowCount() > 0) {
         show_message('New record updated successfully', 'success');
         header('Location: edit.php?do=edit&id=' . $id . '');
@@ -267,17 +279,18 @@ if ($_SESSION['username']) {
       header('Location: edit.php');
       exit();
     }
-  } elseif ($do == 'published') {
+  } elseif ($do == 'action') {
     $id = isset($_GET['id']) ? $_GET['id'] : '';
-    $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '0' WHERE `articles`.`id` = ?;");
-    $stmt->execute(array($id));
-    header('Location: edit.php');
-    exit();
-  } elseif ($do == 'trash') {
-    $id = isset($_GET['id']) ? $_GET['id'] : '';
-    $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '1' WHERE `articles`.`id` = ?;");
-    $stmt->execute(array($id));
-    $msg = 'The post has already been deleted.';
+    $action = isset($_GET['action']) ? $_GET['action'] : '';
+    if ($action == 'publish') {
+      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '0' WHERE `articles`.`id` = ?;");
+      $stmt->execute(array($id));
+      show_message('The post has already been published.', 'success');
+    } elseif ($action == 'trash') {
+      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '1' WHERE `articles`.`id` = ?;");
+      $stmt->execute(array($id));
+      show_message('The post has already been trashed.', 'success');
+    }
     header('Location: edit.php');
     exit();
   } elseif ($do == 'delete') {

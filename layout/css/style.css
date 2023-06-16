@@ -15,9 +15,10 @@ a {
 }
 
 
-/* img.img-me.rounded-circle {
+img.img-me.rounded-circle {
   width: 10%;
-} */
+  height: 10%;
+}
 
 .me.text-capitalize {
   display: flex;
@@ -30,10 +31,28 @@ ul {
   padding-left: 0;
 }
 
-img.img-about,
-img.img-reading {
+li.d-view {
+  transition: transform .5s;
+  margin-bottom: 0.5rem;
+}
+
+li.d-view:hover {
+  transform: translate(1rem);
+}
+
+
+img.img-about {
   width: -webkit-fill-available;
 }
+
+
+
+img.img-reading {
+  width: 100%;
+  height: auto;
+}
+
+
 
 .media a.nav-link {
   color: var(--secondary-color);

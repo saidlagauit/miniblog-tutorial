@@ -20,7 +20,7 @@
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-user-circle"></i>
             </a>
-            <ul class="dropdown-menu  dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-end">
               <li>
                 <a class="dropdown-item" href="edit-users.php">
                   <i class="fas fa-at"></i>

@@ -19,7 +19,7 @@ if ($_SESSION['username']) {
         ?>
         <h1>Widgets Header</h1>
         <a class="btn bt-clean btn-danger" href="widgets.php?do=trash&id=<?php echo $widgets['id']; ?>">
-          <i class="fas fa-trash"></i>&nbsp;Delete Widgets
+          <i class="fas fa-trash"></i>&nbsp;Clear Widgets
         </a>
         <a class="btn btn-info" href="widgets.php?do=widgets-about">
           <i class="fas fa-eye"></i>&nbsp;View Widgets About
@@ -79,7 +79,7 @@ if ($_SESSION['username']) {
         ?>
         <h1>Widgets About</h1>
         <a class="btn bt-clean btn-danger" href="widgets.php?do=trash-about&id=<?php echo $about['id']; ?>">
-          <i class="fas fa-trash"></i>&nbsp;Delete Widgets
+          <i class="fas fa-trash"></i>&nbsp;Clear Widgets
         </a>
         <a class="btn btn-info" href="widgets.php?do=widgets">
           <i class="fas fa-eye"></i>&nbsp;View Widgets Header

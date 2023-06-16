@@ -13,7 +13,9 @@ if ($_SESSION['username']) {
     $count = $stmt->rowCount();
     if ($count > 0) {
       ?>
-      <h1>Profile</h1>
+      <h1 class="text-capitalize">Profile :
+        <?php echo $row['name']; ?>
+      </h1>
       <a class="btn bt-del btn-danger" href="edit-users.php?do=user-delete&id=<?php echo $row['id']; ?>">
         <i class="fas fa-trash"></i>&nbsp;Delete Account
       </a>
@@ -65,7 +67,7 @@ if ($_SESSION['username']) {
               <label>New Password</label>
               <input type="hidden" name="password-old" class="form-control" value="<?php echo $row['password']; ?>" />
               <input type="password" name="password-new" class="form-control"
-                placeholder="Leave Blank If You Done Want To Change" />
+                placeholder="Leave blank if you don't want to make any changes" />
             </div>
             <div class="d-grid gap-2 mb-3">
               <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i>&nbsp;Update Profile</button>
