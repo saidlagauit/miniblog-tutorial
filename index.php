@@ -95,6 +95,7 @@ if ($do == 'view') {
     } else {
       $Date = date('H:i', strtotime($dateString));
     }
+    $postID = $post['id'];
     $cover = $post['cover'];
     $title = $post['title'];
     $markdownContent = $post['content'];
@@ -110,7 +111,72 @@ if ($do == 'view') {
           <?php echo $content ?>
         </div>
       </li>
-      <li>add comment</li>
+      <li class="commint">
+        <div class="d-commint">
+          <div class="col-md-8 mx-auto">
+            <h3>Comments</h3>
+            <?php
+            $articlesid = $postID;
+            $Allcomments = $con->prepare("SELECT comments.articlesid, comments.comment, comments.name, comments.approved, comments.date_c, articles.id FROM comments INNER JOIN articles ON comments.articlesid = articles.id WHERE comments.articlesid = ? AND comments.approved = '1' ORDER BY comments.date_c DESC");
+            $Allcomments->execute([$articlesid]);
+            foreach ($Allcomments as $commint) :
+              $dateString = $commint['date_c'];
+              $now = date('Y-m-d H:i:s');
+              $timeDiff = strtotime($now) - strtotime($dateString);
+              if ($timeDiff > 86400) {
+                $formattedDate = date('d-M', strtotime($dateString));
+              } else {
+                $formattedDate = date('H:i', strtotime($dateString));
+              }
+            ?>
+              <div class="card text-bg-light p-2 mt-3">
+                <span class="by"><?php echo $commint['name'] . ' commented on ' . $formattedDate; ?></span>
+                <hr />
+                <p class="m-0"><?php echo $commint['comment']; ?></p>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <div class="col-md-8 mx-auto">
+          <hr />
+          <h4>Leave a Comment</h4>
+          <form class="text-bg-light p-2" action="index.php?do=comments-true" method="post" autocomplete="off" id="comments">
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input type="hidden" name="articlesid" value="<?php echo $id; ?>">
+                  <label for="textarea" class="control-label">Comments<span class="text-danger">*</span></label>
+                  <textarea name="comment" class="form-control" rows="3" required="required"></textarea>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Name<span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" required="required" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Email<span class="text-danger">*</span></label>
+                  <input class="form-control" type="email" name="email" required="required" />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">Website</label>
+                  <input class="form-control" type="url" name="website" />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button class="btn btn-primary" type="submit" name="comments">
+                  <i class="fa fa-paper-plane"></i>&nbsp;Post Comment
+                </button>
+              </div>
+            </div>
+          </form>
+          <hr />
+        </div>
+      </li>
     </ul>
 <?php
   }
