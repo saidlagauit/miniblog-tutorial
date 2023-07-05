@@ -130,7 +130,7 @@ if ($do == 'view') {
               }
             ?>
               <div class="card text-bg-light p-2 mt-3">
-                <span class="by"><?php echo $commint['name'] . ' commented on ' . $formattedDate; ?></span>
+                <span class="by text-capitalize"><?php echo $commint['name'] . ' commented on ' . $formattedDate; ?></span>
                 <hr />
                 <p class="m-0"><?php echo $commint['comment']; ?></p>
               </div>
@@ -144,7 +144,7 @@ if ($do == 'view') {
             <div class="row g-3">
               <div class="col-md-12">
                 <div class="form-group">
-                  <input type="hidden" name="articlesid" value="<?php echo $id; ?>">
+                  <input type="hidden" name="articlesid" value="<?php echo $articlesid; ?>">
                   <label for="textarea" class="control-label">Comments<span class="text-danger">*</span></label>
                   <textarea name="comment" class="form-control" rows="3" required="required"></textarea>
                 </div>
@@ -190,7 +190,7 @@ if ($do == 'view') {
     $stmt = $con->prepare("INSERT INTO `comments`(`articlesid`, `comment`, `name`, `email`, `website`) VALUES (?,?,?,?,?)");
     $stmt->execute(array($articlesid, $comment, $name, $email, $website));
     show_message('Thank you for comment', 'success');
-    header('Location: ?do=reading&id=' . $articlesid . '#comments');
+    header('location: ' . $_SERVER['HTTP_REFERER']);
     exit();
   } else {
     header('Location: index.php');
