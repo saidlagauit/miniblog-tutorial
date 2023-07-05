@@ -10,6 +10,18 @@ a {
   margin: 3rem 0;
 }
 
+li.reading-cover {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  height: 22rem;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
 img.img-me.rounded-circle {
   width: 10%;
   height: 10%;
