@@ -2,7 +2,7 @@
 <div class="footer mt-3 text-md-center">
   <div class="container">
     <div class="row g-3">
-      <div class="col-md-6 mx-auto border-top">
+      <div class="col-md-6 mx-auto">
         <span><i class="fa fa-copyright"></i>
           <?php echo date('Y'); ?> Said Lagauit.
         </span>

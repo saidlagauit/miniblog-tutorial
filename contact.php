@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pageTitle = 'Said Lagauit - Contact';
+$pageTitle = 'Contact';
 include 'init.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!empty($_POST["name"]) && !empty($_POST["email"]) && !empty($_POST["subject"]) && !empty($_POST["message"])) {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pageTitle = 'Said Lagauit';
+$pageTitle = 'Home';
 include 'init.php';
 $do = isset($_GET['do']) ? $_GET['do'] : 'view';
 
@@ -116,6 +116,12 @@ if ($do == 'view') {
           <div class="col-md-8 mx-auto">
             <h3>Comments</h3>
             <?php
+            if (isset($_SESSION['message'])) : ?>
+              <div id="message">
+                <?php echo $_SESSION['message']; ?>
+              </div>
+            <?php unset($_SESSION['message']);
+            endif;
             $articlesid = $postID;
             $Allcomments = $con->prepare("SELECT comments.articlesid, comments.comment, comments.name, comments.approved, comments.date_c, articles.id FROM comments INNER JOIN articles ON comments.articlesid = articles.id WHERE comments.articlesid = ? AND comments.approved = '1' ORDER BY comments.date_c DESC");
             $Allcomments->execute([$articlesid]);
@@ -187,11 +193,17 @@ if ($do == 'view') {
     $name = cleanInput($_POST['name']);
     $email = cleanInput($_POST['email']);
     $website = cleanInput($_POST['website']);
-    $stmt = $con->prepare("INSERT INTO `comments`(`articlesid`, `comment`, `name`, `email`, `website`) VALUES (?,?,?,?,?)");
-    $stmt->execute(array($articlesid, $comment, $name, $email, $website));
-    show_message('Thank you for comment', 'success');
-    header('location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
+    if (!empty($comment) && !empty($name) && !empty($email)) {
+      $stmt = $con->prepare("INSERT INTO `comments`(`articlesid`, `comment`, `name`, `email`, `website`) VALUES (?,?,?,?,?)");
+      $stmt->execute(array($articlesid, $comment, $name, $email, $website));
+      show_message('Thank you for your comment', 'success');
+      header('location: ' . $_SERVER['HTTP_REFERER']);
+      exit();
+    } else {
+      show_message('Please fill in all required fields', 'danger');
+      header('location: ' . $_SERVER['HTTP_REFERER']);
+      exit();
+    }
   } else {
     header('Location: index.php');
     exit();

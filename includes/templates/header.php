@@ -10,7 +10,7 @@
   <meta name="author" content="Said Lagauit">
   <link rel="shortcut icon" href="<?php echo $imgs; ?>/favicon_io/favicon.ico" type="image/x-icon">
   <title>
-    <?php getTitle() ?>
+    <?php getTitle() ?> - Said Lagauit | Developer
   </title>
   <link rel="stylesheet" href="<?php echo $css; ?>all.min.css" />
   <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.min.css" />

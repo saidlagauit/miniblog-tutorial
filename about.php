@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pageTitle = 'Said Lagauit - About';
+$pageTitle = 'About';
 include 'init.php';
 $IsAbout = $con->prepare("SELECT * FROM `about` LIMIT 1");
 $IsAbout->execute();
