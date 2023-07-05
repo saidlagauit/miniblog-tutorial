@@ -15,20 +15,13 @@ if ($do == 'view') {
   $IsArticles->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
   $IsArticles->bindParam(':offset', $offset, PDO::PARAM_INT);
   $IsArticles->execute();
-
-
-  // Fetch data from the 'about' table
   $stmt = $con->prepare("SELECT `id`, `image`, `bio_a`, `fb`, `insta`, `twt` FROM `about` LIMIT 1");
   $stmt->execute();
   $about = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  // Fetch data from the 'me' table
   $stmt = $con->prepare("SELECT `id`, `name`, `bio`, `pic` FROM `me` LIMIT 1");
   $stmt->execute();
   $me = $stmt->fetch(PDO::FETCH_ASSOC);
-
 ?>
-
   <div class="hero">
     <h1>Hi! I'm <?php echo $me['name']; ?></h1>
     <p><?php echo $me['bio']; ?></p>
@@ -39,7 +32,6 @@ if ($do == 'view') {
     </ul>
     <a href="./contact.php" class="btn btn-dark">Get in Touch</a>
   </div>
-
   <h1 class="mb-3">Blog Posts&nbsp;<i class="fas fa-sort-down"></i></h1>
   <div class="row g-3">
     <?php foreach ($IsArticles as $article) :
