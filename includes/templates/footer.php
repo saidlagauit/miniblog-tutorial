@@ -4,7 +4,7 @@
     <div class="row g-3">
       <div class="col-md-6 mx-auto border-top">
         <span><i class="fa fa-copyright"></i>
-          <?php echo date('Y'); ?> Said Lagauit. All rights reserved.
+          <?php echo date('Y'); ?> Said Lagauit.
         </span>
       </div>
     </div>

@@ -1,12 +1,4 @@
-:root {
-  --main-color: #346751;
-  --secondary-color: #161616;
-  --third-color: #C84B31;
-}
-
 body {
-  background: var(--bs-light);
-  color: var(--secondary-color);
   font-size: 1.3rem;
 }
 
@@ -14,6 +6,9 @@ a {
   text-decoration: none;
 }
 
+.hero {
+  margin: 3rem 0;
+}
 
 img.img-me.rounded-circle {
   width: 10%;
@@ -53,9 +48,5 @@ img.img-reading {
 }
 
 
-
-.media a.nav-link {
-  color: var(--secondary-color);
-}
 
 @media (max-width: 576px) {}

@@ -11,55 +11,59 @@ if ($do == 'view') {
   $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
   $offset = ($currentPage - 1) * $recordsPerPage;
   $totalRecords = $con->prepare('SELECT COUNT(*) FROM `articles`')->fetchColumn();
-  $IsArticles = $con->prepare("SELECT * FROM `articles` WHERE `status_a` IN (0, 1) ORDER BY `created` DESC LIMIT :limit OFFSET :offset");
+  $IsArticles = $con->prepare("SELECT * FROM `articles` WHERE `status_a` = '1' ORDER BY `created` DESC LIMIT :limit OFFSET :offset");
   $IsArticles->bindParam(':limit', $recordsPerPage, PDO::PARAM_INT);
   $IsArticles->bindParam(':offset', $offset, PDO::PARAM_INT);
   $IsArticles->execute();
-  ?>
+
+
+  // Fetch data from the 'about' table
+  $stmt = $con->prepare("SELECT `id`, `image`, `bio_a`, `fb`, `insta`, `twt` FROM `about` LIMIT 1");
+  $stmt->execute();
+  $about = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // Fetch data from the 'me' table
+  $stmt = $con->prepare("SELECT `id`, `name`, `bio`, `pic` FROM `me` LIMIT 1");
+  $stmt->execute();
+  $me = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
+
+  <div class="hero">
+    <h1>Hi! I'm <?php echo $me['name']; ?></h1>
+    <p><?php echo $me['bio']; ?></p>
+    <ul class="social-media d-flex">
+      <li class="nav-item"><a class="nav-link" aria-label="On facebook" href="<?php echo $about['fb']; ?>"><i class="fab fa-facebook-f fa-lg"></i></a></li>
+      <li class="nav-item mx-3"><a class="nav-link" aria-label="On instagram" href="<?php echo $about['insta']; ?>"><i class="fab fa-instagram fa-lg"></i></a></li>
+      <li class="nav-item"><a class="nav-link" aria-label="On twitter" href="<?php echo $about['twt']; ?>"><i class="fab fa-twitter fa-lg"></i></a></li>
+    </ul>
+    <a href="./contact.php" class="btn btn-dark">Get in Touch</a>
+  </div>
+
+  <h1 class="mb-3">Blog Posts&nbsp;<i class="fas fa-sort-down"></i></h1>
   <div class="row g-3">
-    <div class="col-md-10">
-      <h1 class="text-capitalize">articles</h1>
-      <ul class="view text-capitalize border-top border-dark">
-        <?php
-        if ($IsArticles->rowCount() > 0) {
-          foreach ($IsArticles as $article) {
-            $dateString = empty($article['updated']) ? $article['created'] : $article['updated'];
-            $now = date('Y-m-d H:i:s');
-            $timeDiff = strtotime($now) - strtotime($dateString);
-            if ($timeDiff > 86400) {
-              $formattedDate = date('d-M', strtotime($dateString));
-            } else {
-              $formattedDate = date('H:i', strtotime($dateString));
-            }
-            ?>
-            <li class="d-view">
-              <a class="text-bg-light border-bottom pb-2" href="index.php?do=reading&slug=<?php echo $article['slug']; ?>">
-                <?php echo $article['title'] ?>&nbsp;<span class="badge bg-dark">
-                  <?php echo $formattedDate; ?>
-                </span>
-              </a>
-            </li>
-            <?php
-          }
-        } else {
-          echo '<p>No articles found.</p>';
-        }
-        ?>
-      </ul>
-    </div>
-    <div class="col-md-2">
-      <div class="category text-md-end">
-        <h1 class="text-capitalize">categories</h1>
-        <?php
-        $categoriesCount = $con->query("SELECT categories, COUNT(*) AS count FROM articles GROUP BY categories");
-        while ($category = $categoriesCount->fetch(PDO::FETCH_ASSOC)) {
-          echo '<a class="text-secondary" href="categories.php?category=' . $category['categories'] . '">';
-          echo $category['categories'] . ' (' . $category['count'] . ')';
-          echo '</a><br />';
-        }
-        ?>
+    <?php foreach ($IsArticles as $article) :
+      $dateString = empty($article['updated']) ? $article['created'] : $article['updated'];
+      $now = date('Y-m-d H:i:s');
+      $timeDiff = strtotime($now) - strtotime($dateString);
+      if ($timeDiff > 86400) {
+        $Date = date('d-M', strtotime($dateString));
+      } else {
+        $Date = date('H:i', strtotime($dateString));
+      }
+      $cover = $article['cover'];
+      $title = $article['title'];
+      $slug = $article['slug'];
+    ?>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="./uploads/<?php echo $cover; ?>" alt="<?php echo $title; ?>">
+          <div class="card-body">
+            <a href="./index.php?do=reading&slug=<?php echo $slug; ?>" class="card-title h2"><?php echo $title; ?></a>
+            <p class="card-text"><?php echo $Date; ?></p>
+          </div>
+        </div>
       </div>
-    </div>
+    <?php endforeach; ?>
   </div>
   <?php
   $totalPages = ceil($totalRecords / $recordsPerPage);
@@ -78,22 +82,22 @@ if ($do == 'view') {
   }
 } elseif ($do == 'reading') {
   $slug = $_GET['slug'];
-  $Articles = $con->prepare("SELECT `id`, `title`, `slug`, `cover`, `content`, `author`, `status_a`, `categories`, `tags`, `created`, `updated` FROM `articles` WHERE `slug` = ? AND `status_a` = 1");
+  $Articles = $con->prepare("SELECT `id`, `title`, `slug`, `cover`, `content`, `author`, `status_a`, `categories`, `tags`, `created`, `updated` FROM `articles` WHERE `slug` = ? AND `status_a` = '1'");
   $Articles->execute([$slug]);
   if (!empty($Articles)) {
     foreach ($Articles as $article) {
-      ?>
+  ?>
       <div class="row g-3 my-1">
         <h2 class="title-reading text-capitalize">
           <?php echo $article['title']; ?>
         </h2>
         <?php
         if (!empty($article['cover'])) {
-          ?>
+        ?>
           <div class="col-md-4">
             <img class="img-reading" src="./uploads/<?php echo $article['cover']; ?>" alt="<?php echo $article['title']; ?>">
           </div>
-          <?php
+        <?php
         }
         ?>
         <div class="col-md-8 mx-auto">
@@ -104,7 +108,7 @@ if ($do == 'view') {
             echo $htmlContent; ?>
           </p>
           <div class="comments-show border my-1 p-2">
-            <?php if (isset($_SESSION['message'])): ?>
+            <?php if (isset($_SESSION['message'])) : ?>
               <div id="message">
                 <?php echo $_SESSION['message']; ?>
               </div>
@@ -125,7 +129,7 @@ if ($do == 'view') {
                   $formattedDate = date('H:i', strtotime($dateString));
                 }
                 if ($comments['approved'] == 1) {
-                  ?>
+              ?>
                   <li>
                     <h6>
                       <?php echo $comments['name'] . '&nbsp;:&nbsp;<i class="fas fa-quote-left"></i>&nbsp;' . $comments['comment'] ?>&nbsp;
@@ -134,7 +138,7 @@ if ($do == 'view') {
                       </span>
                     </h6>
                   </li>
-                  <?php
+              <?php
                 } else {
                   echo '<p></p>';
                 }
@@ -178,7 +182,7 @@ if ($do == 'view') {
           </form>
         </div>
       </div>
-      <?php
+<?php
     }
   } else {
     header('Location: index.php');
