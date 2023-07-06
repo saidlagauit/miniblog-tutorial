@@ -35,7 +35,7 @@ if ($_SESSION['username']) {
             foreach ($IsArticles as $article) {
             ?>
               <tr>
-                <td class="<?php if ($article['status_a'] == '0') :
+                <td class="<?php if ($article['status_a'] == '1') :
                               echo 'text-success';
                             else :
                               echo 'text-danger';
@@ -59,7 +59,7 @@ if ($_SESSION['username']) {
                     <i class="fas fa-edit"></i>
                   </a>
                   <?php
-                  if ($article['status_a'] == 0) {
+                  if ($article['status_a'] == 1) {
                   ?>
                     <a class="btn btn-info" href="../index.php?do=reading&slug=<?php echo $article['slug']; ?>" target="_blank">
                       <i class="fas fa-eye"></i>
@@ -283,11 +283,11 @@ if ($_SESSION['username']) {
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $action = isset($_GET['action']) ? $_GET['action'] : '';
     if ($action == 'publish') {
-      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '0' WHERE `articles`.`id` = ?;");
+      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '1' WHERE `articles`.`id` = ?;");
       $stmt->execute(array($id));
       show_message('The post has already been published.', 'success');
     } elseif ($action == 'trash') {
-      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '1' WHERE `articles`.`id` = ?;");
+      $stmt = $con->prepare("UPDATE `articles` SET `status_a` = '0' WHERE `articles`.`id` = ?;");
       $stmt->execute(array($id));
       show_message('The post has already been trashed.', 'success');
     }
