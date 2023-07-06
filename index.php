@@ -132,7 +132,7 @@ if ($do == 'view') {
                 $formattedDate = date('H:i', strtotime($dateString));
               }
             ?>
-              <div class="card text-bg-light p-2 mt-3">
+              <div class="card bg-body-tertiary p-2 mt-3">
                 <span class="by text-capitalize"><?php echo $commint['name'] . ' commented on ' . $formattedDate; ?></span>
                 <hr />
                 <p class="m-0"><?php echo $commint['comment']; ?></p>
@@ -143,7 +143,7 @@ if ($do == 'view') {
         <div class="col-md-8 mx-auto">
           <hr />
           <h4>Leave a Comment</h4>
-          <form class="text-bg-light p-2" action="index.php?do=comments-true" method="post" autocomplete="off" id="comments">
+          <form class="bg-body-tertiary p-2" action="index.php?do=comments-true" method="post" autocomplete="off" id="comments">
             <div class="row g-3">
               <div class="col-md-12">
                 <div class="form-group">

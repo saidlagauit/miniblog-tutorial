@@ -39,25 +39,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div class="col-md-6">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="name" required="required" />
-        <label>Full Name <sub class="text-danger">*</sub></label>
+        <input type="text" class="form-control" name="name" id="name" required="required" />
+        <label for="name">Full Name *</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="email" class="form-control" name="email" required="required" />
-        <label>Email Address <sub class="text-danger">*</sub></label>
+        <input type="email" class="form-control" name="email" id="email" required="required" />
+        <label for="email">Email Address *</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="subject" required="required" />
-        <label>Subject <sub class="text-danger">*</sub></label>
+        <input type="text" class="form-control" name="subject" id="subject" required="required" />
+        <label for="subject">Subject *</label>
       </div>
       <div class="form-floating mb-3">
-        <textarea type="text" class="form-control" name="message" style="height: 9rem;" required="required"></textarea>
-        <label>Message <sub class="text-danger">*</sub></label>
+        <textarea type="text" class="form-control" name="message" id="message" style="height: 9rem;" required="required"></textarea>
+        <label for="message">Message *</label>
       </div>
       <div class="d-grid gap-2">
         <button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane"></i> Send Message</button>
       </div>
-      <p class="text-danger m-0">* All fields are required.</p>
+      <p class="m-0">* All fields are required.</p>
     </div>
   </div>
 </form>

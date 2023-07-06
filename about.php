@@ -21,13 +21,13 @@ if (!empty($IsAbout)) {
         </div>
         <nav class="nav media border-top">
           <h2 class="link-media">Contact info</h2>
-          <a class="nav-link" href="<?php echo $about['fb'] ?>" target="_blank">
+          <a class="nav-link" href="<?php echo $about['fb'] ?>" aria-label="On facebook" target="_blank">
             <i class="fab fa-facebook-square fa-2xl"></i>
           </a>
-          <a class="nav-link" href="<?php echo $about['insta'] ?>" target="_blank">
+          <a class="nav-link" href="<?php echo $about['insta'] ?>" aria-label="On instagram" target="_blank">
             <i class="fab fa-instagram-square fa-2xl"></i>
           </a>
-          <a class="nav-link" href="<?php echo $about['twt'] ?>" target="_blank">
+          <a class="nav-link" href="<?php echo $about['twt'] ?>" aria-label="On twitter" target="_blank">
             <i class="fab fa-twitter-square fa-2xl"></i>
           </a>
         </nav>
