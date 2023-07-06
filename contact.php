@@ -22,16 +22,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 ?>
-<h2 class="text-md-center">Contact Me</h2>
+<div class="head-top text-md-center">
+  <h1>Get in Touch</h1>
+  <p>Send me a message, and I'll get back to you as soon as I can.</p>
+</div>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" autocomplete="off">
-  <?php if (isset($_SESSION['message'])): ?>
+  <?php if (isset($_SESSION['message'])) : ?>
     <div id="message">
       <?php echo $_SESSION['message']; ?>
     </div>
     <?php unset($_SESSION['message']); ?>
   <?php endif; ?>
   <div class="row g-3">
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-6">
+      <img src="<?php echo $imgs ?>collaboration.webp" class="img-contact" width="100%" alt="image" />
+    </div>
+    <div class="col-md-6">
       <div class="form-floating mb-3">
         <input type="text" class="form-control" name="name" required="required" />
         <label>Full Name <sub class="text-danger">*</sub></label>

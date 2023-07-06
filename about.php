@@ -9,17 +9,18 @@ if (!empty($IsAbout)) {
   <div class="row g-3">
     <?php
     foreach ($IsAbout as $about) {
+      $markdownContent = $about['bio_a'];
+      $bio = $Parsedown->text($markdownContent);
       ?>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <img class="img-about" src="./uploads/<?php echo $about['image'] ?>" alt="me">
       </div>
-      <div class="col-md-9 align-self-center">
-        <h2 class="about-title">About me</h2>
-        <p class="about-info">
-          <?php echo $about['bio_a'] ?>
-        </p>
+      <div class="col-md-8 align-self-center">
+        <div class="about-info">
+          <?php echo $bio ?>
+        </div>
         <nav class="nav media border-top">
-          <h3 class="link-media">Contact info</h3>
+          <h2 class="link-media">Contact info</h2>
           <a class="nav-link" href="<?php echo $about['fb'] ?>" target="_blank">
             <i class="fab fa-facebook-square fa-2xl"></i>
           </a>

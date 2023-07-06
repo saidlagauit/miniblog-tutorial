@@ -3,9 +3,6 @@ session_start();
 $pageTitle = 'Home';
 include 'init.php';
 $do = isset($_GET['do']) ? $_GET['do'] : 'view';
-
-$Parsedown = new Parsedown();
-
 if ($do == 'view') {
   $recordsPerPage = 10;
   $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;

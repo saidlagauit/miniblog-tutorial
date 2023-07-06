@@ -6,8 +6,11 @@
     </button>
     <div class="collapse navbar-collapse" id="MyNavbar">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="./about.php">about</a></li>
-        <li class="nav-item"><a class="nav-link" href="./contact.php">contact</a></li>
+        <?php foreach ($navbarItems as $itemName => $itemLink) : ?>
+          <li class="nav-item">
+            <a class="nav-link <?php pageActive($pageTitle, $itemName); ?>" href="<?php echo $itemLink; ?>"><?php echo $itemName; ?></a>
+          </li>
+        <?php endforeach; ?>
       </ul>
     </div>
   </div>

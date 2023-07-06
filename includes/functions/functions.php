@@ -31,3 +31,12 @@ function show_message($message, $type = 'success')
     $_SESSION['message'] = '<div class="alert alert-danger">' . $message . '</div>';
   }
 }
+
+function pageActive($currentPage, $pageName)
+{
+  if ($currentPage == $pageName) {
+    echo 'active';
+  } else {
+    echo '';
+  }
+}
