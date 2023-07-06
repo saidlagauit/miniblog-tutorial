@@ -145,22 +145,22 @@ if ($do == 'view') {
           <h4>Leave a Comment</h4>
           <form class="bg-body-tertiary p-2" action="index.php?do=comments-true" method="post" autocomplete="off" id="comments">
             <div class="row g-3">
+              <input type="hidden" name="articlesid" value="<?php echo $articlesid; ?>">
               <div class="col-md-12">
                 <div class="form-group">
-                  <input type="hidden" name="articlesid" value="<?php echo $articlesid; ?>">
-                  <label for="textarea" class="control-label">Comments<span class="text-danger">*</span></label>
+                  <label for="textarea" class="control-label">Comments *</label>
                   <textarea name="comment" class="form-control" rows="3" required="required"></textarea>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label class="control-label">Name<span class="text-danger">*</span></label>
+                  <label class="control-label">Name *</label>
                   <input class="form-control" type="text" name="name" required="required" />
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label class="control-label">Email<span class="text-danger">*</span></label>
+                  <label class="control-label">Email *</label>
                   <input class="form-control" type="email" name="email" required="required" />
                 </div>
               </div>

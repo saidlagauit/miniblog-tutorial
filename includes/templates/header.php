@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="<?php echo $lang['LTR']; ?>" lang="<?php echo $lang['EN']; ?>" data-bs-theme="light">
+<html dir="<?php echo $lang['LTR']; ?>" lang="<?php echo $lang['EN']; ?>" data-bs-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
