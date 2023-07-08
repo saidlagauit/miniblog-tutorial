@@ -181,7 +181,7 @@ if ($do == 'view') {
         </div>
       </li>
     </ul>
-<?php
+  <?php
   }
 } elseif ($do == 'comments-true') {
   if (isset($_POST['comments'])) {
@@ -205,6 +205,13 @@ if ($do == 'view') {
     header('Location: index.php');
     exit();
   }
+} else {
+  ?>
+  <div class="col-md-8 mx-auto">
+    <div class="alert alert-warning text-center mt-2" role="alert">
+      Page not found
+    </div>
+  </div>
+<?php
 }
-
 include $tpl . 'footer.php'; ?>

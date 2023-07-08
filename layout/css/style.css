@@ -59,6 +59,8 @@ img.img-reading {
   height: auto;
 }
 
-
+.form-control {
+  border-radius: 0;
+}
 
 @media (max-width: 576px) {}
