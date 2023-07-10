@@ -29,7 +29,7 @@ if ($do == 'view') {
     </ul>
     <a href="./contact.php" class="btn btn-dark">Get in Touch</a>
   </div>
-  <h1 class="mb-3">Blog Posts&nbsp;<i class="fas fa-sort-down"></i></h1>
+  <h2 class="mb-3">Blog Posts&nbsp;<i class="fas fa-sort-down"></i></h2>
   <div class="row g-3">
     <?php foreach ($IsArticles as $article) :
       $dateString = empty($article['updated']) ? $article['created'] : $article['updated'];
