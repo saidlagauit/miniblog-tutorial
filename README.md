@@ -12,6 +12,6 @@ Overall, this website is well-designed and well-implemented, with a clean and us
 
 > miniblog/owner/index.php
 
-username : lagauit
+Username : lagauit
 
-password : 123
+Password : 123

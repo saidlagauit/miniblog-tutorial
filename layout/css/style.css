@@ -1,9 +1,39 @@
+:root {
+  --green: #206a5d;
+  --grey: #ebecf1;
+  --navy: #1f4068;
+  --black: #1b1c25;
+  --color-hover: #346751;
+}
+
+.btn-main {
+  --bs-btn-color: var(--grey);
+  --bs-btn-bg: var(--green);
+  --bs-btn-border-color: var(--green);
+  --bs-btn-hover-color: var(--grey);
+  --bs-btn-hover-bg: var(--color-hover);
+  --bs-btn-hover-border-color: var(--color-hover);
+  --bs-btn-focus-shadow-rgb: 130, 138, 145;
+  --bs-btn-active-color: var(--grey);
+  --bs-btn-active-bg: var(--color-hover);
+  --bs-btn-active-border-color: var(--color-hover);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--grey);
+  --bs-btn-disabled-bg: var(--green);
+  --bs-btn-disabled-border-color: var(--green);
+}
+
 body {
   font-size: 1.3rem;
 }
 
 a {
   text-decoration: none;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: var(--green);
 }
 
 .hero {
@@ -20,7 +50,6 @@ li.reading-cover {
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 
 img.img-me.rounded-circle {
   width: 10%;
@@ -39,7 +68,7 @@ ul {
 }
 
 li.d-view {
-  transition: transform .5s;
+  transition: transform 0.5s;
   margin-bottom: 0.5rem;
 }
 
@@ -47,12 +76,9 @@ li.d-view:hover {
   transform: translate(1rem);
 }
 
-
 img.img-about {
   width: -webkit-fill-available;
 }
-
-
 
 img.img-reading {
   width: 100%;
@@ -63,4 +89,5 @@ img.img-reading {
   border-radius: 0;
 }
 
-@media (max-width: 576px) {}
+@media (max-width: 576px) {
+}

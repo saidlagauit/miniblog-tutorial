@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="message">Message *</label>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane"></i> Send Message</button>
+        <button class="btn btn-main" type="submit"><i class="fa fa-paper-plane"></i> Send Message</button>
       </div>
       <p class="m-0">* All fields are required.</p>
     </div>

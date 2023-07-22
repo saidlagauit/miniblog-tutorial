@@ -27,7 +27,7 @@ if ($do == 'view') {
       <li class="nav-item mx-3"><a class="nav-link" aria-label="On instagram" href="<?php echo $about['insta']; ?>"><i class="fab fa-instagram fa-lg"></i></a></li>
       <li class="nav-item"><a class="nav-link" aria-label="On twitter" href="<?php echo $about['twt']; ?>"><i class="fab fa-twitter fa-lg"></i></a></li>
     </ul>
-    <a href="./contact.php" class="btn btn-dark">Get in Touch</a>
+    <a href="./contact.php" class="btn btn-main">Get in Touch</a>
   </div>
   <h2 class="mb-3">Blog Posts&nbsp;<i class="fas fa-sort-down"></i></h2>
   <div class="row g-3">

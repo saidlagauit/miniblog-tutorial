@@ -84,7 +84,6 @@ if ($_SESSION['username']) {
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $stmt = $con->prepare("DELETE FROM comments WHERE `comments`.`id` = ?");
     $stmt->execute(array($id));
-    $msg = '';
     show_message('The comments has already been deleted.', 'success');
     header('Location: edit-comments.php');
     exit();
