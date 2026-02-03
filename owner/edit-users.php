@@ -4,7 +4,7 @@ $pageTitle = 'Dashboard - Profile';
 include "init.php";
 $do = isset($_GET['do']) ? $_GET['do'] : 'settings';
 $IsContacts = getLatest("*", "contacts", "id");
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'settings') {
     $id = $_SESSION['id'];
     $stmt = $con->prepare("SELECT * FROM `admin` WHERE `id` = ? LIMIT 1");
@@ -12,7 +12,7 @@ if ($_SESSION['username']) {
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count > 0) {
-      ?>
+?>
       <h1 class="text-capitalize">Profile :
         <?php echo $row['name']; ?>
       </h1>
@@ -75,13 +75,13 @@ if ($_SESSION['username']) {
           </form>
         </div>
       </div>
-      <?php
+<?php
     } else {
       header('Location: dashboard.php?do=users');
       exit();
     }
   } elseif ($do == 'user-update') {
-    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
     $id = $_POST['id'];
     $name = $_POST['name'];
     $username = $_POST['username'];
@@ -95,13 +95,18 @@ if ($_SESSION['username']) {
     if (empty($email)) {
       $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
     }
-    foreach ($formErrors as $error) {
-      echo '<div class="alert alert-danger">' . $error . '</div>';
-    }
     if (empty($formErrors)) {
       $stmt = $con->prepare("UPDATE `admin` SET `name`= ?,`username`= ?,`biographical`= ?,`email`= ?,`fb`= ?,`twt`= ?,`in`= ?,`password`= ? WHERE `id`= ?");
       $stmt->execute(array($name, $username, $biographical, $email, $fb, $twt, $in, $password, $id));
       show_message('The profile has been updated successfully', 'success');
+      header('Location: edit-users.php');
+      exit();
+    } else {
+      $errorMsg = '';
+      foreach ($formErrors as $error) {
+        $errorMsg .= '<div class="alert alert-danger">' . $error . '</div>';
+      }
+      $_SESSION['message'] = $errorMsg;
       header('Location: edit-users.php');
       exit();
     }

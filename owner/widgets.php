@@ -7,12 +7,12 @@ $do = isset($_GET['do']) ? $_GET['do'] : 'widgets';
 $IsWidgets = getLatest("*", "me", "id", 1);
 $IsWidgetsAbout = getLatest("*", "about", "id", 1);
 
-if ($_SESSION['role'] == 'author') {
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'author') {
   header('Location: edit.php?do=new-posts');
   exit;
 }
 
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'widgets') {
     if (!empty($IsWidgets)) {
       foreach ($IsWidgets as $widgets) {

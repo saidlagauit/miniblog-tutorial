@@ -4,7 +4,6 @@ include "connect.php";
 $tpl = 'includes/templates/'; // templates directory
 $lang = 'includes/languages/'; // language directory
 $func = 'includes/functions/'; // functions directory
-$func = 'includes/functions/'; // functions directory
 $css = 'layout/css/'; // Css directory
 $js = 'layout/js/'; //  Js directory 
 $imgs = 'layout/images/'; //  Images directory 

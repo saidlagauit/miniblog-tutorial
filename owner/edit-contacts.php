@@ -4,14 +4,14 @@ $pageTitle = 'Dashboard - Comments';
 include "init.php";
 $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
 $IsContacts = getLatest("*", "contacts", "id");
-if ($_SESSION['role'] == 'author') {
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'author') {
   header('Location: edit.php?do=new-posts');
   exit;
 }
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'manage') {
     if (!empty($IsContacts)) {
-      ?>
+?>
       <h1>Messages</h1>
       <div class="table-responsive">
         <?php if (isset($_SESSION['message'])): ?>
@@ -30,7 +30,7 @@ if ($_SESSION['username']) {
             </tr>
             <?php
             foreach ($IsContacts as $contact) {
-              ?>
+            ?>
               <tr>
                 <td>
                   <?php echo $contact['name']; ?>
@@ -50,14 +50,14 @@ if ($_SESSION['username']) {
                   </a>
                 </td>
               </tr>
-              <?php
+            <?php
             }
             ?>
           </tbody>
         </table>
       </div>
 
-      <?php
+    <?php
     } else {
       echo '<p class="mt-1 alert alert-info">There are no message currently</p>';
     }
@@ -68,7 +68,7 @@ if ($_SESSION['username']) {
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count > 0) {
-      ?>
+    ?>
       <h1 class=" text-capitalize">
         <?php echo $row['name']; ?> -
         <?php echo $row['created_c']; ?>
@@ -91,7 +91,7 @@ if ($_SESSION['username']) {
           </p>
         </div>
       </div>
-      <?php
+<?php
     } else {
       header('Location: edit-contacts.php');
       exit();

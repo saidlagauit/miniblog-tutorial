@@ -5,9 +5,9 @@ $pageTitle = 'Dashboard - Posts';
 include "init.php";
 $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
 $IsArticles = getLatest("*", "articles", "id");
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'manage') {
-    if ($_SESSION['role'] == 'author') {
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'author') {
       header('Location: edit.php?do=new-posts');
       exit;
     }
@@ -194,11 +194,11 @@ if ($_SESSION['username']) {
     </div>
 <?php
   } elseif ($do == 'post-true') {
-    $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
-    $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
-    $author = filter_var($_POST['author'], FILTER_SANITIZE_STRING);
-    $categories = filter_var($_POST['categories'], FILTER_SANITIZE_STRING);
-    $tags = filter_var($_POST['tags'], FILTER_SANITIZE_STRING);
+    $title = filter_var($_POST['title'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $content = filter_var($_POST['content'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $author = filter_var($_POST['author'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $categories = filter_var($_POST['categories'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $tags = filter_var($_POST['tags'], FILTER_SANITIZE_SPECIAL_CHARS);
     $slug = strtolower(str_replace(' ', '-', $title));
     $errors = [];
     if (empty($title)) {
@@ -210,40 +210,45 @@ if ($_SESSION['username']) {
     if (empty($categories)) {
       $errors[] = 'Categories field is required.';
     }
-    if (!empty($errors)) {
-      foreach ($errors as $error) {
-        echo '<div class="alert alert-danger">' . $error . '</div>';
-      }
-    } else {
-      $cover = '';
-      if (!empty($_FILES['cover']['name'])) {
-        $extension = pathinfo($_FILES['cover']['name'], PATHINFO_EXTENSION);
-        if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
-          $errors[] = 'Invalid file type. Only JPG, JPEG, PNG and GIF files are allowed';
+
+    $cover = '';
+    if (!empty($_FILES['cover']['name'])) {
+      $extension = pathinfo($_FILES['cover']['name'], PATHINFO_EXTENSION);
+      if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+        $errors[] = 'Invalid file type. Only JPG, JPEG, PNG and GIF files are allowed';
+      } else {
+        $file_name = uniqid('cover_', true) . '.' . $extension;
+        if (move_uploaded_file($_FILES['cover']['tmp_name'], '../uploads/' . $file_name)) {
+          $cover = $file_name;
         } else {
-          $file_name = uniqid('cover_', true) . '.' . $extension;
-          if (move_uploaded_file($_FILES['cover']['tmp_name'], '../uploads/' . $file_name)) {
-            $cover = $file_name;
-          } else {
-            $errors[] = 'Failed to upload the image.';
-          }
+          $errors[] = 'Failed to upload the image.';
         }
       }
-      if (empty($errors)) {
-        $checkSlug = $con->prepare("SELECT * FROM articles WHERE slug = ?");
+    }
+
+    if (!empty($errors)) {
+      $errorMsg = '';
+      foreach ($errors as $error) {
+        $errorMsg .= '<div class="alert alert-danger">' . $error . '</div>';
+      }
+      $_SESSION['message'] = $errorMsg;
+      header('Location: edit.php?do=new-posts');
+      exit();
+    } else {
+      $checkSlug = $con->prepare("SELECT * FROM articles WHERE slug = ?");
+      $checkSlug->execute([$slug]);
+      $counter = 1;
+      $originalSlug = $slug;
+      while ($checkSlug->fetch()) {
+        $slug = $originalSlug . '+' . $counter;
+        $counter++;
         $checkSlug->execute([$slug]);
-        $counter = 1;
-        $originalSlug = $slug;
-        while ($checkSlug->fetch()) {
-          $slug = $originalSlug . '+' . $counter;
-          $counter++;
-          $checkSlug->execute([$slug]);
-        }
-        $stmt = $con->prepare('INSERT INTO articles (title, slug, cover, content, author, categories, tags) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$title, $slug, $cover, $content, $author, $categories, $tags]);
-        show_message('Article added successfully!', 'success');
-        header('Location: edit.php?do=new-posts');
       }
+      $stmt = $con->prepare('INSERT INTO articles (title, slug, cover, content, author, categories, tags) VALUES (?, ?, ?, ?, ?, ?, ?)');
+      $stmt->execute([$title, $slug, $cover, $content, $author, $categories, $tags]);
+      show_message('Article added successfully!', 'success');
+      header('Location: edit.php?do=new-posts');
+      exit();
     }
   } elseif ($do == 'update') {
     $id = $_POST['id'];
@@ -263,20 +268,21 @@ if ($_SESSION['username']) {
     if (empty($categories)) {
       $FormError[] = '<div class="alert alert-danger">Categories Cant Be <strong>Empty</strong></div>';
     }
-    foreach ($FormError as $error) {
-      echo $error;
-    }
     if (empty($FormError)) {
       $stmt = $con->prepare("UPDATE `articles` SET `title`= ?,`slug`= ?,`content`= ?,`author`= ?,`categories`= ?,`tags`= ? WHERE `id`= ?");
       $stmt->execute(array($title, $slug, $content, $author, $categories, $tags, $id));
       if ($stmt->rowCount() > 0) {
         show_message('New record updated successfully', 'success');
         header('Location: edit.php?do=edit&id=' . $id . '');
+        exit();
       } else {
         show_message('Not updated', 'danger');
+        header('Location: edit.php?do=edit&id=' . $id . '');
+        exit();
       }
     } else {
-      header('Location: edit.php');
+      $_SESSION['message'] = implode('', $FormError);
+      header('Location: edit.php?do=edit&id=' . $id . '');
       exit();
     }
   } elseif ($do == 'action') {

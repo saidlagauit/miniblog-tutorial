@@ -5,13 +5,13 @@ include "init.php";
 $do = isset($_GET['do']) ? $_GET['do'] : 'dashboard';
 $IsUser = getLatest("*", "admin", "id");
 $IsRoles = getLatest("*", "roles", "id");
-if ($_SESSION['role'] == 'author') {
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'author') {
   header('Location: edit.php?do=new-posts');
   exit;
 }
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'dashboard') {
-    ?>
+?>
     <h1 class="text-md-center my-1 text-capitalize">Welcome
       <?php echo $_SESSION['username'] ?> to dashboard
     </h1>
@@ -52,9 +52,9 @@ if ($_SESSION['username']) {
 
 
     </div>
-    <?php
+  <?php
   } elseif ($do == 'users') {
-    ?>
+  ?>
     <h1>Users&nbsp;<a class="btn btn-outline-primary" href="?do=new-user">Add New</a></h1>
     <div class="table-responsive">
       <?php if (isset($_SESSION['message'])): ?>
@@ -75,7 +75,7 @@ if ($_SESSION['username']) {
           <?php
           if (!empty($IsUser)) {
             foreach ($IsUser as $user) {
-              ?>
+          ?>
               <tr>
                 <td>
                   <?php echo $user['username']; ?>
@@ -98,7 +98,7 @@ if ($_SESSION['username']) {
                   </a>
                 </td>
               </tr>
-              <?php
+          <?php
             }
           } else {
             echo '<p>Add new user</p>';
@@ -107,9 +107,9 @@ if ($_SESSION['username']) {
         </tbody>
       </table>
     </div>
-    <?php
+  <?php
   } elseif ($do == 'new-user') {
-    ?>
+  ?>
     <h1>Add New User</h1>
     <div class="row g-3">
       <div class="col-md-5 mx-auto">
@@ -190,9 +190,6 @@ if ($_SESSION['username']) {
     if (empty($email)) {
       $FormError[] = '<div class="alert alert-danger">Email Cant Be <strong>Empty</strong></div>';
     }
-    foreach ($FormError as $error) {
-      echo $error;
-    }
     if (empty($FormError)) {
       $stmt = $con->prepare("INSERT INTO `admin`(`name`, `username`, `email`, `password`, `role`) VALUES (?,?,?,?,?)");
       $stmt->execute(array($name, $username, $email, $hashedPass, $role));
@@ -200,7 +197,7 @@ if ($_SESSION['username']) {
       header('Location: dashboard.php?do=new-user');
       exit();
     } else {
-      show_message('No Record Inserted', 'danger');
+      $_SESSION['message'] = implode('', $FormError);
       header('Location: dashboard.php?do=new-user');
       exit();
     }
@@ -211,7 +208,7 @@ if ($_SESSION['username']) {
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count > 0) {
-      ?>
+    ?>
       <h1 class=" text-capitalize">Author Description</h1>
       <hr />
       <div class="row g-3">
@@ -245,7 +242,7 @@ if ($_SESSION['username']) {
           <a href="<?php echo $row['in']; ?>" target="_blank"><i class="fab fa-linkedin fa-2xl"></i></a>
         </div>
       </div>
-      <?php
+<?php
     } else {
       header('Location: dashboard.php?do=users');
       exit();

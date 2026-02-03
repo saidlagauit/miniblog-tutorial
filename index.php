@@ -71,7 +71,7 @@ if ($do == 'view') {
     echo '</ul></nav>';
   }
 } elseif ($do == 'reading') {
-  $slug = $_GET['slug'];
+  $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
   $Articles = $con->prepare("SELECT `id`, `title`, `slug`, `cover`, `content`, `author`, `status_a`, `categories`, `tags`, `created`, `updated` FROM `articles` WHERE `slug` = ? AND `status_a` = '1'");
   $Articles->execute([$slug]);
   $post = $Articles->fetch(PDO::FETCH_ASSOC);

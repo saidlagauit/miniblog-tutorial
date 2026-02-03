@@ -1,5 +1,5 @@
 <?php
-$dsn = "mysql:host=localhost;dbname=miniblog";
+$dsn = "mysql:host=localhost;dbname=mini_blog";
 $user = "root";
 $pass = "";
 $option = array(

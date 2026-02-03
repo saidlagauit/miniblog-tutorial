@@ -1,4 +1,9 @@
 </div>
+<?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'administrator') { ?>
+  </div>
+  </div>
+<?php } ?>
+<!--
 <div class="footer mt-3 text-md-center">
   <div class="container">
     <div class="row g-3">
@@ -9,7 +14,7 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 <script src="<?php echo $js; ?>jquery-3.6.1.min.js"></script>
 <script src="<?php echo $js; ?>bootstrap.bundle.min.js"></script>
 <script src="<?php echo $js; ?>validation.min.js"></script>

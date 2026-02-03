@@ -33,7 +33,7 @@ if (isset($_SESSION['username'])) {
         echo $error;
       } ?>
       <div class="form-floating mb-3">
-        <input name="username" type="username" class="form-control">
+        <input name="username" type="text" class="form-control">
         <label>username</label>
       </div>
       <div class="form-floating mb-3">

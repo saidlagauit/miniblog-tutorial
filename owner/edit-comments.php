@@ -3,15 +3,17 @@ session_start();
 $pageTitle = 'Dashboard - Comments';
 include "init.php";
 $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
-$IsComments = getLatest("*", "comments", "id");
-if ($_SESSION['role'] == 'author') {
+$stmt = $con->prepare("SELECT comments.*, articles.slug AS article_slug FROM comments INNER JOIN articles ON comments.articlesid = articles.id ORDER BY comments.id DESC");
+$stmt->execute();
+$IsComments = $stmt->fetchAll();
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'author') {
   header('Location: edit.php?do=new-posts');
   exit;
 }
-if ($_SESSION['username']) {
+if (isset($_SESSION['username'])) {
   if ($do == 'manage') {
     if (!empty($IsComments)) {
-      ?>
+?>
       <h1>Comments</h1>
       <div class="table-responsive">
         <?php if (isset($_SESSION['message'])): ?>
@@ -30,7 +32,7 @@ if ($_SESSION['username']) {
             </tr>
             <?php
             foreach ($IsComments as $comment) {
-              ?>
+            ?>
               <tr>
                 <td>
                   <?php echo $comment['name']; ?>
@@ -47,29 +49,29 @@ if ($_SESSION['username']) {
                   </a>
                   <?php
                   if ($comment['approved'] == 1) {
-                    ?>
-                    <a class="btn btn-info" href="../index.php?do=reading&id=<?php echo $comment['articlesid']; ?>"
+                  ?>
+                    <a class="btn btn-info" href="../index.php?do=reading&slug=<?php echo $comment['article_slug']; ?>"
                       target="_blank">
                       <i class="fas fa-eye"></i>
                     </a>
-                    <?php
+                  <?php
                   } else {
-                    ?>
+                  ?>
                     <a class="btn btn-success" href="?do=approved&id=<?php echo $comment['id']; ?>">
                       <i class="fas fa-check-circle"></i>
                     </a>
-                    <?php
+                  <?php
                   }
                   ?>
                 </td>
               </tr>
-              <?php
+            <?php
             }
             ?>
           </tbody>
         </table>
       </div>
-      <?php
+<?php
     } else {
       echo '<p class="mt-1 alert alert-info">There are no comments currently</p>';
     }
