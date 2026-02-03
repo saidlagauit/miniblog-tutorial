@@ -4,10 +4,10 @@ $pageTitle = 'Contact';
 include 'init.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!empty($_POST["name"]) && !empty($_POST["email"]) && !empty($_POST["subject"]) && !empty($_POST["message"])) {
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_SPECIAL_CHARS);
+    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
     $stmt = $con->prepare("INSERT INTO `contacts`(`name`, `email`, `subject`, `message`) VALUES (?,?,?,?)");
     $stmt->execute(array($name, $email, $subject, $message));
     if ($stmt->rowCount() > 0) {
