@@ -1,17 +1,69 @@
-# Mini blog Tutorial - CRUD
+# Mini Blog Tutorial - CRUD
 
-mini blog is a blog that covers everything related to programming. It offers short and useful articles on various topics in programming, such as programming languages, tools, frameworks, algorithms, security, and more. mini blog aims to educate, inform, and motivate readers of all levels and backgrounds to learn, apply, and innovate in the world of programming.
+Mini Blog is a comprehensive blogging platform built with PHP and MySQL. It features a public-facing blog with a modern, responsive design and a powerful admin panel for managing content, users, and settings.
 
-## Code Usage
+## Features
 
-The website is built using PHP, MySQL, JavaScript, and Bootstrap. The code is well-structured and easy to read, with clear comments that help to explain its functionality. The tools used to create and develop the website are also well documented and easy to use.
+### Public Interface
 
-Overall, this website is well-designed and well-implemented, with a clean and user-friendly design and a range of features for both users and administrators.
+- **Modern Design**: Clean and responsive UI built with Bootstrap and custom CSS.
+- **Blog Posts**: Read articles with support for rich content.
+- **Comments**: Interactive comment system for user engagement.
+- **Contact Form**: Integrated contact page for user inquiries.
+- **About Page**: dedicated section for author biography and skills.
 
-### Login
+### Admin Panel (Owner Area)
 
-> miniblog/owner/index.php
+- **Dashboard**: Overview of site statistics (articles, comments, visits).
+- **Article Management**: Create, read, update, and delete (CRUD) blog posts.
+- **Category & Tag Management**: Organize content effectively.
+- **Comment Moderation**: Approve or delete user comments.
+- **User Management**: Manage admin and author accounts.
+- **Responsive Sidebar**: Easy navigation on both desktop and mobile devices.
+- **Security**:
+  - Secure session management.
+  - Input sanitization using `FILTER_SANITIZE_SPECIAL_CHARS`.
+  - Protection against SQL injection and XSS.
 
-Username : lagauit
+## Tech Stack
 
-Password : 123
+- **Backend**: PHP 7.4+
+- **Database**: MySQL / MariaDB
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
+- **Server**: Apache (via XAMPP/WAMP/MAMP)
+
+## Installation
+
+1. **Clone the Repository**
+
+    ```bash
+    git clone https://github.com/yourusername/miniblog-tutorial.git
+    cd miniblog-tutorial
+    ```
+
+2. **Database Setup**
+    - Create a new MySQL database named `mini_blog`.
+    - Import the `db/miniblog.sql` file into your database.
+      - _Note: The SQL file contains the table structure. You may need to create an initial admin user manually or insert sample data if preferred._
+
+3. **Configuration**
+    - Verify database credentials in `owner/connect.php` (default: localhost, root, no password).
+
+4. **Run the Project**
+    - Place the project folder in your server's root directory (e.g., `htdocs` for XAMPP).
+    - Access the public site: `http://localhost/miniblog-tutorial/`
+    - Access the admin panel: `http://localhost/miniblog-tutorial/owner/`
+
+## Default Login Credentials
+
+**Admin Panel URL**: `http://localhost/miniblog-tutorial/owner/index.php`
+
+- **Username**: `lagauit`
+- **Password**: `123`
+
+## Recent Updates
+
+- **Slug Support**: Articles and comments now use SEO-friendly slugs instead of IDs.
+- **UI Improvements**: Enhanced styling for the homepage, about, and contact pages.
+- **Admin Sidebar**: New responsive sidebar for better dashboard navigation.
+- **Code Cleanup**: Removed deprecated filters and improved error handling.
