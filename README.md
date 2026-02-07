@@ -37,7 +37,7 @@ Mini Blog is a comprehensive blogging platform built with PHP and MySQL. It feat
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/miniblog-tutorial.git
+    git clone https://github.com/saidlagauit/miniblog-tutorial.git
     cd miniblog-tutorial
     ```
 
